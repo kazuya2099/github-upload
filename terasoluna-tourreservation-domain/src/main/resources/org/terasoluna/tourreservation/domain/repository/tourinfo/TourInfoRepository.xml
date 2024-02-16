@@ -44,16 +44,15 @@
     t.conductor,
     t.tour_abs
     FROM
-    tourinfo AS t JOIN departure AS d
+    tourinfo t JOIN departure d
     ON
-    t.dep_code = d.dep_code JOIN arrival AS a
+    t.dep_code = d.dep_code JOIN arrival a
     ON
-    t.arr_code = a.arr_code JOIN accommodation AS ac
+    t.arr_code = a.arr_code JOIN accommodation ac
     ON
     t.accom_code = ac.accom_code
     WHERE
-    t.tour_code =
-    #{tourCode}
+    t.tour_code = #{tourCode}
   </select>
 
   <select id="findOneWithDetailsForUpdate" parameterType="string" resultMap="tourInfoResultMap">
@@ -76,12 +75,12 @@
     t.conductor,
     t.tour_abs
     FROM
-    tourinfo AS t JOIN departure AS d
+    tourinfo t JOIN departure d
     ON
     t.dep_code = d.dep_code JOIN
-    arrival AS a
+    arrival a
     ON
-    t.arr_code = a.arr_code JOIN accommodation AS ac
+    t.arr_code = a.arr_code JOIN accommodation ac
     ON
     t.accom_code = ac.accom_code
     WHERE
@@ -100,60 +99,41 @@
     t.dep_code,
     d.dep_name,
     t.arr_code,
-    a.arr_name,
     t.accom_code,
-    ac.accom_name,
-    ac.accom_tel,
     t.base_price,
     t.conductor,
     t.tour_abs
     FROM
-    tourinfo AS t JOIN departure AS d
-    ON
-    t.dep_code =
-    d.dep_code JOIN arrival AS a
-    ON
-    t.arr_code = a.arr_code JOIN accommodation AS ac
-    ON
-    ac.accom_code =
-    t.accom_code
+    tourinfo t JOIN departure d
+    ON t.DEP_CODE = t.DEP_CODE 
     <include refid="findPageBySearchCriteriaWherePhrase" />
     ORDER BY
-    t.tour_days DESC,
-    t.base_price DESC LIMIT #{pageable.pageSize} OFFSET #{pageable.offset}
-  </select>
+    t.tour_days DESC
+    </select>
 
   <select id="countBySearchCriteria" parameterType="TourInfoSearchCriteria" resultType="_long">
     SELECT
     COUNT(*)
     FROM
-    tourinfo AS t JOIN departure AS d
-    ON
-    t.dep_code = d.dep_code JOIN arrival AS a
-    ON
-    t.arr_code = a.arr_code
+    tourinfo t JOIN departure d
+    on t.DEP_CODE = d.DEP_CODE
     <include refid="findPageBySearchCriteriaWherePhrase" />
   </select>
 
   <sql id="findPageBySearchCriteriaWherePhrase">
         <![CDATA[
         WHERE
-        (
             EXISTS(
-            SELECT r.tour_code FROM reserve AS r
-            WHERE r.tour_code = t.tour_code
-            AND (r.adult_count + r.child_count + #{criteria.adultCount} + #{criteria.childCount}) <= t.ava_rec_max
+                SELECT r.tour_code FROM reserve r
+                WHERE r.tour_code = t.tour_code
+                AND (r.adult_count + r.child_count + #{criteria.adultCount} + #{criteria.childCount}) <= t.ava_rec_max)
+            OR NOT EXISTS(
+                SELECT r.tour_code FROM reserve r
+                WHERE r.tour_code = t.tour_code
             )
-                OR
-            NOT EXISTS(
-            SELECT r.tour_code FROM reserve AS r
-            WHERE r.tour_code = t.tour_code
-            )
-        )]]>
+        ]]>
     AND t.dep_day = #{criteria.depDate}
     AND d.dep_code = #{criteria.depCode}
-    AND a.arr_code =
-    #{criteria.arrCode}
     <if test="criteria.tourDays != 0">
       AND t.tour_days = #{criteria.tourDays}
     </if>

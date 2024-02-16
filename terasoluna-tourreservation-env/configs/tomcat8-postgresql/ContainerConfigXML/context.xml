@@ -4,8 +4,8 @@
 <Context>
 
   <Resource name="jdbc/tourreservationDataSource" type="javax.sql.DataSource"
-    driverClassName="org.postgresql.Driver" username="postgres" password="P0stgres"
-    url="jdbc:postgresql://localhost:5432/tourreserve" maxIdle="16" minIdle="0" maxWaitMillis="60000"
+    driverClassName="oracle.jdbc.driver.OracleDriver" username="TOURRESERVE" password="password"
+    url="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DESKTOP-ITP21F1)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=TOURRESERVE)))" maxIdle="16" minIdle="0" maxWaitMillis="60000"
     maxTotal="96" />
 
   <Resources className="org.apache.catalina.webresources.StandardRoot">

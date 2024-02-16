@@ -21,9 +21,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
-
 import org.hibernate.validator.constraints.NotEmpty;
+
+import lombok.Data;
 
 @Data
 public class SearchTourForm implements Serializable {
@@ -52,7 +52,6 @@ public class SearchTourForm implements Serializable {
     @NotEmpty
     private String depCode;
 
-    @NotEmpty
     private String arrCode;
 
     @NotNull
