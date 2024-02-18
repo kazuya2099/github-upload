@@ -42,7 +42,7 @@
     <level value="info" />
   </logger>
   <logger name="org.terasoluna.gfw.web.logging.TraceLoggingInterceptor">
-    <level value="trace" />
+    <level value="info" />
   </logger>
   <logger name="org.terasoluna.gfw.common.exception.ExceptionLogger">
     <level value="info" />
@@ -66,12 +66,12 @@
   </logger>
 
   <logger name="jdbc.sqltiming">
-    <level value="debug" />
+    <level value="info" />
   </logger>
 
   <!-- only for development -->
   <logger name="jdbc.resultsettable">
-    <level value="debug" />
+    <level value="info" />
   </logger>
 
   <root level="warn">
